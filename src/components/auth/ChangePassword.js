@@ -1,30 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
+import { Auth } from "aws-amplify";
 
 class ChangePassword extends Component {
   state = {
-    oldpassword: "",
-    newpassword: "",
-    confirmpassword: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
     errors: {
       cognito: null,
-      blankfield: false,
-      passwordmatch: false
-    }
-  }
+      blankField: false,
+      passwordMatch: false,
+    },
+  };
 
   clearErrorState = () => {
     this.setState({
       errors: {
         cognito: null,
-        blankfield: false,
-        passwordmatch: false
-      }
+        blankField: false,
+        passwordMatch: false,
+      },
     });
-  }
+  };
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     event.preventDefault();
 
     // Form validation
@@ -32,19 +33,33 @@ class ChangePassword extends Component {
     const error = Validate(event, this.state);
     if (error) {
       this.setState({
-        errors: { ...this.state.errors, ...error }
+        errors: { ...this.state.errors, ...error },
       });
     }
 
     // AWS Cognito integration here
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      await Auth.changePassword(user, this.state.oldPassword, this.state.newPassword);
+      this.props.history.push("/changepasswordconfirmation");
+    } catch (error) {
+      let err = null;
+      !error.message ? (err = { message: error }) : (err = error);
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err,
+        },
+      });
+    }
   };
 
-  onInputChange = event => {
+  onInputChange = (event) => {
     this.setState({
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     });
     document.getElementById(event.target.id).classList.remove("is-danger");
-  }
+  };
 
   render() {
     return (
@@ -56,16 +71,16 @@ class ChangePassword extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className="field">
               <p className="control has-icons-left">
-                <input 
-                  className="input" 
+                <input
+                  className="input"
                   type="password"
-                  id="oldpassword"
+                  id="oldPassword"
                   placeholder="Old password"
-                  value={this.state.oldpassword}
+                  value={this.state.oldPassword}
                   onChange={this.onInputChange}
                 />
                 <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
+                  <i className="fas fa-lock" />
                 </span>
               </p>
             </div>
@@ -74,13 +89,13 @@ class ChangePassword extends Component {
                 <input
                   className="input"
                   type="password"
-                  id="newpassword"
+                  id="newPassword"
                   placeholder="New password"
-                  value={this.state.newpassword}
+                  value={this.state.newPassword}
                   onChange={this.onInputChange}
                 />
                 <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
+                  <i className="fas fa-lock" />
                 </span>
               </p>
             </div>
@@ -89,13 +104,13 @@ class ChangePassword extends Component {
                 <input
                   className="input"
                   type="password"
-                  id="confirmpassword"
+                  id="confirmPassword"
                   placeholder="Confirm password"
-                  value={this.state.confirmpassword}
+                  value={this.state.confirmPassword}
                   onChange={this.onInputChange}
                 />
                 <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
+                  <i className="fas fa-lock" />
                 </span>
               </p>
             </div>
@@ -106,9 +121,7 @@ class ChangePassword extends Component {
             </div>
             <div className="field">
               <p className="control">
-                <button className="button is-success">
-                  Change password
-                </button>
+                <button className="button is-success">Change password</button>
               </p>
             </div>
           </form>

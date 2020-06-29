@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import { Auth } from "aws-amplify";
 import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
-import { Auth } from "aws-amplify";
 
 class ForgotPasswordVerification extends Component {
   state = {

@@ -1,26 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
+import { Auth } from 'aws-amplify';
 
 class ForgotPassword extends Component {
   state = {
     email: "",
     errors: {
       cognito: null,
-      blankfield: false
-    }
-  }
+      blankField: false,
+    },
+  };
 
   clearErrorState = () => {
     this.setState({
       errors: {
         cognito: null,
-        blankfield: false
-      }
+        blankField: false,
+      },
     });
-  }
+  };
 
-  forgotPasswordHandler = async event => {
+  forgotPasswordHandler = async (event) => {
     event.preventDefault();
 
     // Form validation
@@ -28,19 +29,32 @@ class ForgotPassword extends Component {
     const error = Validate(event, this.state);
     if (error) {
       this.setState({
-        errors: { ...this.state.errors, ...error }
+        errors: { ...this.state.errors, ...error },
       });
     }
 
     // AWS Cognito integration here
-  }
+    try {
+      await Auth.forgotPassword(this.state.email)
+      this.props.history.push("/forgotpasswordverification")
+    } catch (error) {
+      let err = null;
+      !error.message ? (err = { message: error }) : (err = error);
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err,
+        },
+      });
+    }
+  };
 
-  onInputChange = event => {
+  onInputChange = (event) => {
     this.setState({
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     });
     document.getElementById(event.target.id).classList.remove("is-danger");
-  }
+  };
 
   render() {
     return (
@@ -48,8 +62,8 @@ class ForgotPassword extends Component {
         <div className="container">
           <h1>Forgot your password?</h1>
           <p>
-            Please enter the email address associated with your account and we'll
-            email you a password reset link.
+            Please enter the email address associated with your account and
+            we'll email you a password reset link.
           </p>
           <FormErrors formerrors={this.state.errors} />
 
@@ -57,7 +71,7 @@ class ForgotPassword extends Component {
             <div className="field">
               <p className="control has-icons-left has-icons-right">
                 <input
-                  type="email"
+                  type="email "
                   className="input"
                   id="email"
                   aria-describedby="emailHelp"
@@ -66,7 +80,7 @@ class ForgotPassword extends Component {
                   onChange={this.onInputChange}
                 />
                 <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
+                  <i className="fas fa-envelope" />
                 </span>
               </p>
             </div>
@@ -77,9 +91,7 @@ class ForgotPassword extends Component {
             </div>
             <div className="field">
               <p className="control">
-                <button className="button is-success">
-                  Login
-                </button>
+                <button className="button is-success">Submit</button>
               </p>
             </div>
           </form>

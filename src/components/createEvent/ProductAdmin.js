@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import axios from "axios";
 import { v1 as uuidv1 } from 'uuid';
 
-const config = require("../config.json");
+const config = require("../../config.json");
 
 export default class ProductAdmin extends Component {
   constructor(props) {
@@ -54,9 +54,9 @@ export default class ProductAdmin extends Component {
     return (
       <section className="section">
         <div className="container">
-          <h1>Add New Event</h1>
+          <h1>Create Event</h1>
           <p className="subtitle is-5">
-            Fill in the details to add new event
+            Fill in the details to create new event
             </p>
           <br />
           <div className="columns">

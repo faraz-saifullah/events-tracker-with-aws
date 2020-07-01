@@ -10,18 +10,14 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type schedule struct {
-	StartTime string `json:"start_Time"`
-	EndTime   string `json:"end_Time"`
-}
-
 type event struct {
-	Username    string   `json:"username"`
-	EventID     string   `json:"eventId"`
-	Description string   `json:"description"`
-	Name        string   `json:"name"`
-	Status      string   `json:"status"`
-	Schedule    schedule `json:"schedule"`
+	Username    string `json:"username"`
+	EventID     string `json:"eventId"`
+	Description string `json:"description"`
+	Name        string `json:"name"`
+	Status      string `json:"status"`
+	StartTime   string `json:"start_time"`
+	StopTime    string `json:"stop_time"`
 }
 
 var errorLogger = log.New(os.Stderr, "ERROR ", log.Llongfile)

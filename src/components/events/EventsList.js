@@ -1,30 +1,34 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
-import Product from "./Product";
+import Event from "./Event";
 
-const config = require("../config.json");
+const config = require("../../config.json");
 
-export default class Products extends Component {
-  state = {
-    newproduct: null,
-    products: [],
-  };
+export default class EventsList extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      newevent: null,
+      events: [],
+    };
+  }
 
-  fetchProducts = async () => {
+  fetchevents = async () => {
     try {
-      const res = await axios.get(`${config.api.invokeUrl}/events?username=${this.props.auth.username}`);
-      const products = res.data;
-      console.log(products);
-      this.setState({ products });
+      const res = await axios.get(
+        `${config.api.invokeUrl}/events?username=${this.props.auth.username}`
+      );
+      const events = res.data;
+      this.setState({ events });
     } catch (err) {
-      console.log(`An error has occurred: ${err}`);
+      console.error(err);
     }
   };
 
   componentDidMount = async () => {
     setImmediate(() => {
-      this.fetchProducts();
-    })
+      this.fetchevents();
+    });
   };
 
   render() {
@@ -41,11 +45,11 @@ export default class Products extends Component {
               <div className="column">
                 <div className="tile is-ancestor">
                   <div className="tile is-4 is-parent  is-vertical">
-                    {this.state.products && this.state.products.length > 0 ? (
-                      this.state.products.map((product) => (
-                        <Product
-                          productInfo={product}
-                          key={product.eventId}
+                    {this.state.events && this.state.events.length > 0 ? (
+                      this.state.events.map((event) => (
+                        <Event
+                          eventInfo={event}
+                          key={event.eventId}
                         />
                       ))
                     ) : (

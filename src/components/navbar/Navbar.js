@@ -3,7 +3,6 @@ import { Auth } from "aws-amplify";
 
 export default class Navbar extends Component {
   handleLogOut = async (event) => {
-    event.preventDefault();
     try {
       Auth.signOut();
       this.props.auth.setAuthStatus(false);
@@ -17,28 +16,23 @@ export default class Navbar extends Component {
     return (
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <a className="navbar-item" href="/">
-            <img
-              src="hexal-logo.png"
-              width="112"
-              height="28"
-              alt="hexal logo"
-            />
-          </a>
+          <a className="navbar-item" href="/" />
         </div>
 
         <div id="navbarBasicExample" className="navbar-menu">
-          <div className="navbar-start">
-            <a href="/" className="navbar-item">
-              Home
-            </a>
-            <a href="/products" className="navbar-item">
-              Events
-            </a>
-            <a href="/admin" className="navbar-item">
-              Add New Event
-            </a>
-          </div>
+          {this.props.auth.isAuthenticated && this.props.auth.username && (
+            <div className="navbar-start">
+              <a href="/" className="navbar-item">
+                Home
+              </a>
+              <a href="/events" className="navbar-item">
+                Events
+              </a>
+              <a href="/createevents" className="navbar-item">
+                Create Event
+              </a>
+            </div>
+          )}
 
           <div className="navbar-end">
             <div className="navbar-item">

@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, createRef } from "react";
 import axios from "axios";
-import { v1 as uuidv1 } from 'uuid';
+import createRequestBody from "../../utility/CreateReq"
 
-const config = require("../config.json");
+const config = require("../../config.json");
 
-export default class ProductAdmin extends Component {
+export default class CreateEvent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,23 +19,13 @@ export default class ProductAdmin extends Component {
     this.baseState = this.state;
   }
 
-  createRequestBody = () => {
-    return {
-      ...this.state.formInput,
-      start_time: this.state.formInput.startTime,
-      stop_time: this.state.formInput.stopTime,
-      username: this.props.auth.username,
-      eventId: uuidv1()
-    }
-  }
-
-  handleAddProduct = async (event) => {
+  handleCreateEvent = async (event) => {
     event.preventDefault();
     try {
-      const newEvent = this.createRequestBody();
-      const resp = await axios.post(`${config.api.invokeUrl}/events/`, newEvent);
+      const newEvent = createRequestBody(this.state.formInput, this.props.auth.username);
+      await axios.post(`${config.api.invokeUrl}/events/`, newEvent);
       alert(`Created Successfully! Event ID: ${newEvent.eventId}`);
-      this.setState(this.baseState)
+      this.setState(this.baseState);
     } catch (err) {
       alert("New Event Creation Unsuccessful! Please Try Again");
       console.log(`An error has occurred: ${err}`);
@@ -46,24 +36,24 @@ export default class ProductAdmin extends Component {
     const changedInput = { ...this.state.formInput };
     changedInput[event.target.id] = event.target.value;
     this.setState({
-      formInput: changedInput
+      formInput: changedInput,
     });
-  }
+  };
 
   render() {
     return (
       <section className="section">
         <div className="container">
-          <h1>Add New Event</h1>
+          <h1>Create Event</h1>
           <p className="subtitle is-5">
-            Fill in the details to add new event
-            </p>
+            Fill in the details to create new event
+          </p>
           <br />
           <div className="columns">
             <div className="column is-one-third">
               <form
                 onSubmit={(event) =>
-                  this.handleAddProduct(event)}
+                  this.handleCreateEvent(event)}
               >
                 <div className="control">
                   <input
@@ -76,7 +66,7 @@ export default class ProductAdmin extends Component {
                     required
                   />
                 </div>
-                <br></br>
+                <br />
                 <div className="control">
                   <input
                     className="input is-medium"
@@ -87,7 +77,7 @@ export default class ProductAdmin extends Component {
                     onChange={this.onFornInputChange}
                   />
                 </div>
-                <br></br>
+                <br />
                 <div className="control">
                   <input
                     className="input is-medium"
@@ -99,7 +89,7 @@ export default class ProductAdmin extends Component {
                     required
                   />
                 </div>
-                <br></br>
+                <br />
                 <div className="control">
                   <input
                     className="input is-medium"
@@ -110,7 +100,7 @@ export default class ProductAdmin extends Component {
                     onChange={this.onFornInputChange}
                   />
                 </div>
-                <br></br>
+                <br />
                 <div className="control">
                   <input
                     className="input is-medium"
@@ -121,11 +111,8 @@ export default class ProductAdmin extends Component {
                     onChange={this.onFornInputChange}
                   />
                 </div>
-                <br></br>
-                <button
-                  type="submit"
-                  className="button is-primary is-medium"
-                >
+                <br />
+                <button type="submit" className="button is-primary is-medium">
                   Create Event
                 </button>
               </form>

@@ -1,6 +1,6 @@
 {
   "api": {
-    "invokeUrl": "https://5bltcq602h.execute-api.us-west-2.amazonaws.com/prod"
+    "invokeUrl": "https://00leswxq5h.execute-api.us-east-2.amazonaws.com/dev"
   },
   "cognito": {
     "REGION": "us-east-2",

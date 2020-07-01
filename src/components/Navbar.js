@@ -33,19 +33,19 @@ export default class Navbar extends Component {
               Home
             </a>
             <a href="/products" className="navbar-item">
-              Products
+              Events
             </a>
             <a href="/admin" className="navbar-item">
-              Admin
+              Add New Event
             </a>
           </div>
 
           <div className="navbar-end">
             <div className="navbar-item">
-              {this.props.auth.isAuthenticated && this.props.auth.user && (
+              {this.props.auth.isAuthenticated && this.props.auth.username && (
                 <p>
                   Hello
-                  {this.props.auth.user.username}
+                  {this.props.auth.username}
                   !
                 </p>
               )}

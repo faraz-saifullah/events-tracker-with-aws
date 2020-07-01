@@ -25,7 +25,7 @@ class App extends Component {
     this.state = {
       isAuthenticated: false,
       isAuthenticating: true,
-      user: null,
+      username: null,
     };
   }
 
@@ -37,7 +37,7 @@ class App extends Component {
 
   setUser = (user) => {
     this.setState({
-      user,
+      username: user.username,
     });
   };
 
@@ -49,14 +49,14 @@ class App extends Component {
         this.setUser(user);
       }
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
     }
   }
 
   render() {
     const authProps = {
       isAuthenticated: this.state.isAuthenticated,
-      user: this.state.user,
+      username: this.state.username,
       setAuthStatus: this.setAuthStatus,
       setUser: this.setUser,
     };

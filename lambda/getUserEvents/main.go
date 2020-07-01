@@ -39,6 +39,7 @@ func show(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, er
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
+		Headers:    map[string]string{"Access-Control-Allow-Origin": "*"},
 		Body:       string(js),
 	}, nil
 }
@@ -48,6 +49,7 @@ func serverError(err error) (events.APIGatewayProxyResponse, error) {
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusInternalServerError,
+		Headers:    map[string]string{"Access-Control-Allow-Origin": "*"},
 		Body:       http.StatusText(http.StatusInternalServerError),
 	}, nil
 }
@@ -55,6 +57,7 @@ func serverError(err error) (events.APIGatewayProxyResponse, error) {
 func clientError(status int) (events.APIGatewayProxyResponse, error) {
 	return events.APIGatewayProxyResponse{
 		StatusCode: status,
+		Headers:    map[string]string{"Access-Control-Allow-Origin": "*"},
 		Body:       http.StatusText(status),
 	}, nil
 }

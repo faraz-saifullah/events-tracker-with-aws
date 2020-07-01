@@ -2,14 +2,9 @@ h1 {
   font-size: 2em;
 }
 
-.product-title {
+.event-title {
   font-weight: bold;
-  font-size: 1.2em;
-}
-
-.product-id {
-  font-size: 0.8em;
-  margin: 1em 0;
+  font-size: 1.8em;
 }
 
 .product-edit-icon {
@@ -62,4 +57,8 @@ body {
 
 .buttons {
   margin-left: 1em;
+}
+
+.event-info {
+  font-size: 5.5;
 }

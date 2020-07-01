@@ -11,19 +11,20 @@ export default class Products extends Component {
   };
 
   fetchProducts = async () => {
-    // add call to AWS API Gateway to fetch products here
-    // then set them in state
     try {
-      const res = await axios.get(`${config.api.invokeUrl}/products`);
+      const res = await axios.get(`${config.api.invokeUrl}/events?username=${this.props.auth.username}`);
       const products = res.data;
+      console.log(products);
       this.setState({ products });
     } catch (err) {
       console.log(`An error has occurred: ${err}`);
     }
   };
 
-  componentDidMount = () => {
-    this.fetchProducts();
+  componentDidMount = async () => {
+    setImmediate(() => {
+      this.fetchProducts();
+    })
   };
 
   render() {
@@ -31,10 +32,9 @@ export default class Products extends Component {
       <>
         <section className="section">
           <div className="container">
-            <h1>Energy Products</h1>
+            <h1>Your Events</h1>
             <p className="subtitle is-5">
-              Invest in a clean future with our efficient and cost-effective
-              green energy products:
+              One stop destination for managing all your events efficiently
             </p>
             <br />
             <div className="columns">
@@ -44,16 +44,15 @@ export default class Products extends Component {
                     {this.state.products && this.state.products.length > 0 ? (
                       this.state.products.map((product) => (
                         <Product
-                          name={product.productname}
-                          id={product.id}
-                          key={product.id}
+                          productInfo={product}
+                          key={product.eventId}
                         />
                       ))
                     ) : (
-                      <div className="tile notification is-warning">
-                        No products available
-                      </div>
-                    )}
+                        <div className="tile notification is-warning">
+                          No events available
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>

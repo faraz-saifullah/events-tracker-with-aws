@@ -6,7 +6,7 @@ const config = require("../../config.json");
 
 export default class EventsList extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       newevent: null,
       events: [],
@@ -47,16 +47,13 @@ export default class EventsList extends Component {
                   <div className="tile is-4 is-parent  is-vertical">
                     {this.state.events && this.state.events.length > 0 ? (
                       this.state.events.map((event) => (
-                        <Event
-                          eventInfo={event}
-                          key={event.eventId}
-                        />
+                        <Event eventInfo={event} key={event.eventId} />
                       ))
                     ) : (
-                        <div className="tile notification is-warning">
-                          No events available
-                        </div>
-                      )}
+                      <div className="tile notification is-warning">
+                        No events available
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

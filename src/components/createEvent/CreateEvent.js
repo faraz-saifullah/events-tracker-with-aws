@@ -1,6 +1,6 @@
 import React, { Component, Fragment, createRef } from "react";
 import axios from "axios";
-import createRequestBody from "../../utility/CreateReq"
+import createRequestBody from "../../utility/CreateReq";
 
 const config = require("../../config.json");
 
@@ -22,13 +22,16 @@ export default class CreateEvent extends Component {
   handleCreateEvent = async (event) => {
     event.preventDefault();
     try {
-      const newEvent = createRequestBody(this.state.formInput, this.props.auth.username);
+      const newEvent = createRequestBody(
+        this.state.formInput,
+        this.props.auth.username
+      );
       await axios.post(`${config.api.invokeUrl}/events/`, newEvent);
       alert(`Created Successfully! Event ID: ${newEvent.eventId}`);
       this.setState(this.baseState);
     } catch (err) {
       alert("New Event Creation Unsuccessful! Please Try Again");
-      console.log(`An error has occurred: ${err}`);
+      console.error(err);
     }
   };
 
@@ -51,10 +54,7 @@ export default class CreateEvent extends Component {
           <br />
           <div className="columns">
             <div className="column is-one-third">
-              <form
-                onSubmit={(event) =>
-                  this.handleCreateEvent(event)}
-              >
+              <form onSubmit={(event) => this.handleCreateEvent(event)}>
                 <div className="control">
                   <input
                     className="input is-medium"

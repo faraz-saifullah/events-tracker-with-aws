@@ -28,7 +28,7 @@ export default class Navbar extends Component {
               <a href="/events" className="navbar-item">
                 Events
               </a>
-              <a href="/createevents" className="navbar-item">
+              <a href="/create" className="navbar-item">
                 Create Event
               </a>
             </div>

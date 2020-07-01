@@ -4,10 +4,10 @@ import "./App.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Auth } from "aws-amplify";
-import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import Products from "./components/Products";
-import ProductAdmin from "./components/ProductAdmin";
+import Navbar from "./components/navbar/Navbar";
+import Home from "./components/homepage/Home";
+import EventsList from "./components/events/EventsList";
+import ProductAdmin from "./components/createEvent/ProductAdmin";
 import LogIn from "./components/auth/LogIn";
 import Register from "./components/auth/Register";
 import ForgotPassword from "./components/auth/ForgotPassword";
@@ -15,7 +15,7 @@ import ForgotPasswordVerification from "./components/auth/ForgotPasswordVerifica
 import ChangePassword from "./components/auth/ChangePassword";
 import ChangePasswordConfirm from "./components/auth/ChangePasswordConfirm";
 import Welcome from "./components/auth/Welcome";
-import Footer from "./components/Footer";
+import Footer from "./components/footer/Footer";
 
 library.add(faEdit);
 
@@ -74,8 +74,8 @@ class App extends Component {
                 />
                 <Route
                   exact
-                  path="/products"
-                  render={(props) => <Products {...props} auth={authProps} />}
+                  path="/events"
+                  render={(props) => <EventsList {...props} auth={authProps} />}
                 />
                 <Route
                   exact

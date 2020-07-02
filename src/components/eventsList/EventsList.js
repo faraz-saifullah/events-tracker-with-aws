@@ -17,12 +17,19 @@ export default class VocabTable extends React.Component {
     };
   }
 
-  deleteEvent = (oldData) => {
+  deleteEvent = async (oldData) => {
     const newData = this.state.events;
-    newData.splice(oldData.tableData.id, 1);
+    const rowIndex = oldData.tableData.id
+    const eventId = this.state.events[rowIndex].eventId
+    newData.splice(rowIndex, 1);
     this.setState({
       events: newData,
     });
+    try {
+      await axios.delete(`${config.api.invokeUrl}/events?eventId=${eventId}`);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   updateEvent = async (newData) => {
@@ -35,10 +42,10 @@ export default class VocabTable extends React.Component {
     };
     const newState = this.state.events;
     newState[rowIndex] = updateData;
+    this.setState({
+      events: newState,
+    });
     try {
-      this.setState({
-        events: newState,
-      });
       await axios.put(`${config.api.invokeUrl}/events/`, updateData);
     } catch (err) {
       console.error(err);

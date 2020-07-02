@@ -6,8 +6,6 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Auth } from "aws-amplify";
 import Navbar from "./components/navbar/Navbar";
 import Home from "./components/homepage/Home";
-import EventsList from "./components/events/EventsList";
-import CreateEvent from "./components/createEvent/CreateEvent";
 import LogIn from "./components/auth/LogIn";
 import Register from "./components/auth/Register";
 import ForgotPassword from "./components/auth/ForgotPassword";
@@ -16,6 +14,8 @@ import ChangePassword from "./components/auth/ChangePassword";
 import ChangePasswordConfirm from "./components/auth/ChangePasswordConfirm";
 import Welcome from "./components/auth/Welcome";
 import Footer from "./components/footer/Footer";
+import EventsList from "./components/eventsList/EventsList";
+import CreateNewEvent from "./components/createEvent/CreateNewEvent";
 
 library.add(faEdit);
 
@@ -81,7 +81,7 @@ class App extends Component {
                   exact
                   path="/create"
                   render={(props) => (
-                    <CreateEvent {...props} auth={authProps} />
+                    <CreateNewEvent {...props} auth={authProps} />
                   )}
                 />
                 <Route

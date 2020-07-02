@@ -36,9 +36,23 @@ export function getIcons() {
 
 export function getColumnConfig() {
   return [
-    { title: "Name", field: "name" },
-    { title: "Status", field: "status" },
-    { title: "Description", field: "description" },
+    {
+      title: "Serial",
+      field: "serial",
+      editable: "never",
+    },
+    {
+      title: "Name",
+      field: "name",
+    },
+    {
+      title: "Status",
+      field: "status",
+    },
+    {
+      title: "Description",
+      field: "description",
+    },
     {
       title: "Start Time",
       field: "start_time",
@@ -55,6 +69,7 @@ export function getRowsList(events) {
   if (events.length !== 0) {
     for (let i = 0; i < events.length; i++) {
       const object = {
+        serial: i + 1,
         name: events[i].name,
         status: events[i].status,
         description: events[i].description,

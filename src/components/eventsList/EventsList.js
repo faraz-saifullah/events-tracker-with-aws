@@ -14,7 +14,6 @@ export default class VocabTable extends React.Component {
     super(props);
     this.state = {
       events: [],
-      columnConfig: getColumnConfig(),
     };
   }
 
@@ -26,8 +25,24 @@ export default class VocabTable extends React.Component {
     });
   };
 
-  updateEvent = (oldData) => {
-    console.log(oldData);
+  updateEvent = async (newData) => {
+    const rowIndex = newData.serial - 1;
+    const { eventId, username } = this.state.events[rowIndex];
+    const updateData = {
+      ...newData,
+      eventId,
+      username,
+    };
+    const newState = this.state.events;
+    newState[rowIndex] = updateData;
+    try {
+      this.setState({
+        events: newState,
+      });
+      await axios.put(`${config.api.invokeUrl}/events/`, updateData);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   fetchevents = async () => {
@@ -52,7 +67,7 @@ export default class VocabTable extends React.Component {
     return (
       <MaterialTable
         title="Events List"
-        columns={this.state.columnConfig}
+        columns={getColumnConfig()}
         icons={getIcons()}
         options={getTableOptions()}
         data={getRowsList(this.state.events)}
@@ -64,14 +79,13 @@ export default class VocabTable extends React.Component {
                 this.deleteEvent(oldData);
               }, 600);
             }),
-          onRowUpdate: (oldData) => {
+          onRowUpdate: (newData) =>
             new Promise((resolve) => {
               setTimeout(() => {
                 resolve();
-                this.updateEvent(oldData);
+                this.updateEvent(newData);
               }, 600);
-            });
-          },
+            }),
         }}
       />
     );
